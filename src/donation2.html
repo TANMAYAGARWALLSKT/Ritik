@@ -1,0 +1,166 @@
+<!-- ### Enhanced Donation Page for Brahma Disaster Management System
+
+--- -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Donate to Brahma</title>
+<link href="./output.css" rel="stylesheet">
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <style>
+    .hero {
+      background-image: url('ddd.jpeg'); /* Replace with your background image path */
+      background-size: cover;
+      background-position: center;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
+  <!-- Logo and Name -->
+  <div class="fixed top-0 left-0 right-0 flex items-center justify-between p-4 bg-black shadow-md z-50">
+    <div class="flex items-center space-x-2">
+      <img src="logo.png" alt="Brahma Logo" class="h-10">
+      <span class="text-xl font-bold text-white">Brahma</span>
+    </div>
+    <button id="sidebarToggle" class="p-2 text-white">
+      ☰
+    </button>
+  </div>
+
+   <!-- Hidden Sidebar -->
+   <div id="sidebar" class="fixed top-0 left-0 w-64 h-full bg-black shadow-md transform -translate-x-full transition-transform duration-300">
+    <div class="p-4">
+      <h2 class="text-lg font-bold text-white">Navigation</h2>
+      <ul class="mt-4 space-y-2">
+        <li><a href="index.html#home" class="block p-2 text-white hover:bg-gray-700">Home</a></li>
+        <li><a href="index.html#about" class="block p-2 text-white hover:bg-gray-700">About Us</a></li>
+        <li><a href="index.html#services" class="block p-2 text-white hover:bg-gray-700">Our Services</a></li>
+        <li><a href="index.html#contact" class="block p-2 text-white hover:bg-gray-700">Contact</a></li>
+        <li><a href="index.html#login" class="block p-2 text-white hover:bg-gray-700">Login</a></li>
+      </ul>
+    </div>
+  </div>
+
+<!-- Main Content -->
+<div class="flex flex-col md:flex-row items-center justify-center w-full min-h-screen pt-24 px-4 md:px-8 hero text-white">
+    <div class="text-center md:text-left mt-8 md:mt-0 md:mr-8 md:w-1/2">
+      <h1 class="text-4xl font-bold">Support Brahma Disaster Management System</h1>
+      <p class="text-2xl font-medium mt-4">Your donation empowers us to leverage cutting-edge technology for effective disaster response and relief operations.</p>
+    </div>
+
+    <!-- Donation Card -->
+    <div class="relative w-full md:w-1/2 flex justify-center mt-8 md:mt-0">
+      <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg w-full md:max-w-sm">
+        <h2 class="text-2xl font-bold mb-4 text-center">Make a Donation</h2>
+        <form id="donation-form">
+          <div class="mb-4">
+            <label for="name" class="block text-gray-700 font-bold mb-2">Name</label>
+            <input type="text" id="name" name="name" class="w-full p-2 border border-gray-300 rounded-md" required>
+          </div>
+          <div class="mb-4">
+            <label for="email" class="block text-gray-700 font-bold mb-2">Email</label>
+            <input type="email" id="email" name="email" class="w-full p-2 border border-gray-300 rounded-md" required>
+          </div>
+          <div class="mb-4">
+            <label for="amount" class="block text-gray-700 font-bold mb-2">Donation Amount (INR)</label>
+            <input type="number" id="amount" name="amount" class="w-full p-2 border border-gray-300 rounded-md" required>
+          </div>
+          <div class="text-center">
+            <button type="button" id="donate-button" class="bg-black text-white font-bold py-2 px-4 rounded-md shadow-md hover:bg-gray-800">Donate</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Our Mission -->
+  <div class="w-full py-12 bg-white text-center">
+    <h2 class="text-3xl font-bold mb-4">Our Mission</h2>
+    <p class="text-lg text-gray-700 max-w-3xl mx-auto">Brahma Disaster Management System is dedicated to enhancing disaster response capabilities through innovative technology. Our fleet of drones and quadrupedal robots are deployed to perform search and rescue operations, deliver medical supplies, and assess damage in disaster-stricken areas. By leveraging advanced robotics and AI, we aim to save lives and mitigate the impact of natural and man-made disasters.</p>
+  </div>
+
+  <!-- How Your Donation Helps -->
+  <div class="w-full py-12 bg-gray-100 text-center">
+    <h2 class="text-3xl font-bold mb-4">How Your Donation Helps</h2>
+    <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8 max-w-4xl mx-auto">
+      <div class="p-4 bg-white rounded-lg shadow-md">
+        <h3 class="text-xl font-bold mb-2">Deploying Drones</h3>
+        <p class="text-gray-700">Your contribution helps us maintain and deploy drones for real-time monitoring and immediate response in disaster zones.</p>
+      </div>
+      <div class="p-4 bg-white rounded-lg shadow-md">
+        <h3 class="text-xl font-bold mb-2">Supporting Quadrupedal Robots</h3>
+        <p class="text-gray-700">Donations fund the development and deployment of quadrupedal robots for tasks that are too dangerous or difficult for humans.</p>
+      </div>
+      <div class="p-4 bg-white rounded-lg shadow-md">
+        <h3 class="text-xl font-bold mb-2">Training and Outreach</h3>
+        <p class="text-gray-700">We provide training to first responders and conduct community outreach programs to enhance disaster preparedness.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stories of Impact -->
+  <div class="w-full py-12 bg-white text-center">
+    <h2 class="text-3xl font-bold mb-4">Stories of Impact</h2>
+    <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8 max-w-4xl mx-auto">
+      <div class="p-4 bg-gray-100 rounded-lg shadow-md">
+        <img src="drone2.png" alt="Drone Rescue" class="rounded-lg mb-2">
+        <h3 class="text-xl font-bold mb-2">Rescue Operations</h3>
+        <p class="text-gray-700">Our drones played a critical role in locating and rescuing stranded individuals during recent floods.</p>
+      </div>
+      <div class="p-4 bg-gray-100 rounded-lg shadow-md">
+        <img src="robot_deployment2.jpg" alt="Robot Deployment" class="rounded-lg mb-2">
+        <h3 class="text-xl font-bold mb-2">Robotic Assistance</h3>
+        <p class="text-gray-700">Quadrupedal robots were instrumental in delivering supplies to isolated communities after an earthquake.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="w-full py-4 bg-black text-white text-center">
+    <p>&copy; 2024 Brahma Disaster Management System. All rights reserved.</p>
+  </div>
+
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+
+    sidebarToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('-translate-x-full');
+    });
+
+    document.getElementById('donate-button').onclick = function (e) {
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const amount = document.getElementById('amount').value;
+
+      var options = {
+        key: "rzp_test_XxcBi4GZcRiCLQ", // Replace with your Razorpay key
+        amount: amount * 100, // Razorpay accepts amounts in paisa (INR * 100)
+        currency: "INR",
+        name: "Brahma",
+        description: "Disaster Management Donation",
+        image: "logo.png", // Replace with the path to your logo
+        handler: function (response) {
+            alert("Donation Successful. Payment ID: " + response.razorpay_payment_id);
+            // You can send the response to your server to verify the payment
+          },
+          prefill: {
+            name: name,
+            email: email
+          },
+          theme: {
+            color: "#000"
+          }
+        };
+  
+        var rzp1 = new Razorpay(options);
+        rzp1.open();
+        e.preventDefault();
+      }
+    </script>
+  </body>
+  </html>
+  
