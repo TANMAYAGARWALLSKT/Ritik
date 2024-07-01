@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Disaster Relief Assistance</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzf5XHc7xeWgwJkJTEg8eAS8HJnFsy7Yo&libraries=places&callback=initMap" async defer></script>
+  <style>
+    .hero {
+      background-image: url('disaster_management_bg.jpg'); /* Replace with your background image path */
+      background-size: cover;
+      background-position: center;
+    }
+    #map {
+      height: 500px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
+  <!-- Logo and Name -->
+  <div class="fixed top-0 left-0 right-0 flex items-center justify-between p-4 bg-black shadow-md z-50">
+    <div class="flex items-center space-x-2">
+      <img src="logo.png" alt="Brahma Logo" class="h-10">
+      <span class="text-xl font-bold text-white">Brahma</span>
+    </div>
+    <button id="sidebarToggle" class="p-2 text-white">
+      ☰
+    </button>
+  </div>
+
+  <!-- Hidden Sidebar -->
+  <div id="sidebar" class="fixed top-0 left-0 w-64 h-full bg-black shadow-md transform -translate-x-full transition-transform duration-300">
+    <div class="p-4">
+      <h2 class="text-lg font-bold text-white">Navigation</h2>
+      <ul class="mt-4 space-y-2">
+        <li><a href="index.html#home" class="block p-2 text-white hover:bg-gray-700">Home</a></li>
+        <li><a href="index.html#about" class="block p-2 text-white hover:bg-gray-700">About Us</a></li>
+        <li><a href="index.html#services" class="block p-2 text-white hover:bg-gray-700">Our Services</a></li>
+        <li><a href="index.html#contact" class="block p-2 text-white hover:bg-gray-700">Contact</a></li>
+        <li><a href="index.html#login" class="block p-2 text-white hover:bg-gray-700">Login</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex flex-col items-center justify-center w-full min-h-screen pt-24 px-4 md:px-8 hero text-white">
+    <div class="text-center md:text-left mt-8 md:mt-0 md:w-3/4">
+      <h1 class="text-4xl font-bold">Disaster Relief Assistance</h1>
+      <p class="text-2xl font-medium mt-4">Find the nearest hospitals and essential services to help you during this disaster.</p>
+    </div>
+    
+    <!-- Map Section -->
+    <div id="map" class="mt-8 md:w-3/4 rounded-lg shadow-lg"></div>
+    
+    <!-- Information Section -->
+    <div class="bg-white p-6 mt-8 md:w-3/4 rounded-lg shadow-lg text-black">
+      <h2 class="text-2xl font-bold mb-4 text-center">Nearby Essential Services</h2>
+      <ul id="places-list" class="space-y-4">
+        <!-- Dynamic content will be inserted here -->
+      </ul>
+    </div>
+
+    <!-- Feedback Section -->
+    <div class="bg-white p-6 mt-8 md:w-3/4 rounded-lg shadow-lg text-black">
+      <h2 class="text-2xl font-bold mb-4 text-center">Provide Your Feedback</h2>
+      <form id="feedback-form">
+        <div class="mb-4">
+          <label for="name" class="block text-gray-700 font-bold mb-2">Name</label>
+          <input type="text" id="name" name="name" class="w-full p-2 border border-gray-300 rounded-md" required>
+        </div>
+        <div class="mb-4">
+          <label for="email" class="block text-gray-700 font-bold mb-2">Email</label>
+          <input type="email" id="email" name="email" class="w-full p-2 border border-gray-300 rounded-md" required>
+        </div>
+        <div class="mb-4">
+          <label for="message" class="block text-gray-700 font-bold mb-2">Feedback</label>
+          <textarea id="message" name="message" class="w-full p-2 border border-gray-300 rounded-md" required></textarea>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="bg-black text-white font-bold py-2 px-4 rounded-md shadow-md hover:bg-gray-800">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+
+    sidebarToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('-translate-x-full');
+    });
+
+    // Initialize and add the map
+    function initMap() {
+      // The location from the disaster form
+      const location = { lat: 29.4597205, lng: 77.7108574 };
+      
+      // The map, centered at the disaster location
+      const map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 12,
+        center: location
+      });
+
+      // The marker, positioned at the disaster location
+      const marker = new google.maps.Marker({
+        position: location,
+        map: map
+      });
+
+      // Place service to find nearby hospitals
+      const service = new google.maps.places.PlacesService(map);
+
+      const request = {
+        location: location,
+        radius: '5000',
+        type: ['hospital', 'pharmacy']
+      };
+
+      service.nearbySearch(request, (results, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          results.forEach(place => {
+            const placeMarker = new google.maps.Marker({
+              position: place.geometry.location,
+              map: map,
+              title: place.name
+            });
+
+            const infoWindow = new google.maps.InfoWindow({
+              content: `<div>
+                          <h3 class="font-bold">${place.name}</h3>
+                          <p>${place.vicinity}</p>
+                          <p>Rating: ${place.rating || 'N/A'}</p>
+                        </div>`
+            });
+
+            placeMarker.addListener('click', () => {
+              infoWindow.open(map, placeMarker);
+            });
+
+            const placesList = document.getElementById('places-list');
+            const placeItem = document.createElement('li');
+            placeItem.innerHTML = `<strong>${place.name}</strong><br>${place.vicinity}<br>Rating: ${place.rating || 'N/A'}`;
+            placesList.appendChild(placeItem);
+          });
+        }
+      });
+    }
+
+    // Handle feedback form submission
+    document.getElementById('feedback-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      alert('Thank you for your feedback!');
+      // Here you can add code to handle the feedback submission (e.g., send it to your server)
+    });
+  </script>
+</body>
+</html>
