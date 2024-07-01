@@ -129,7 +129,7 @@
       });
 
       function updateMap(latitude, longitude) {
-        let zoomlevel = 10; // Replace with your desired zoom level
+        let zoomlevel = 15; // Replace with your desired zoom level
         let link = `https://www.bing.com/maps/embed?h=300&w=400&cp=${latitude}~${longitude}&lvl=${zoomlevel}&typ=d&sty=r&src=SHELL&FORM=MBEDV8`;
         document.getElementById("mapFrame").src = link;
       }
