@@ -4,11 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Floating Navbar</title>
- 
-    <link href="./output.css" rel="stylesheet">
- 
+    <link href="./output.css" rel="stylesheet" />
   </head>
-  <body class="bg-gray-100 flex flex-col items-center justify-center h-screen">
+  <body class="bg-zinc-950 flex flex-col items-center justify-center h-screen">
     <!-- Logo and Name -->
     <div
       class="fixed top-0 left-0 right-0 flex items-center justify-between p-4 shadow-md z-50"
@@ -28,7 +26,9 @@
       <div class="p-4 bg-slate-950">
         <ul class="mt-4 space-y-2">
           <li>
-            <a href="./index.html" class="block p-2 text-white hover:bg-gray-700"
+            <a
+              href="./index.html"
+              class="block p-2 text-white hover:bg-gray-700"
               >Home</a
             >
           </li>
@@ -73,7 +73,7 @@
 
     <!-- Main Content -->
     <div
-      class="bg-zinc-950 flex justify-center flex-wrap w-screen h-screen items-center"
+      class="bg-zinc-950 flex justify-center flex-wrap w-screen items-center"
     >
       <div class="flex justify-center flex-wrap gap-10">
         <div class="flex justify-center w-[80%] text-[3vw]">
@@ -100,6 +100,20 @@
         </div>
       </div>
     </div>
+    <div class="flex gap-10 flex-wrap">
+      <button onclick="getLocation()">
+        <img class="w-10 h-10" src="./refresh-svgrepo-com.svg" alt="" />
+      </button>
+      <iframe
+        id="mapFrame"
+        width="300"
+        height="200"
+        frameborder="0"
+        scrolling="no"
+        marginheight="0"
+        marginwidth="0"
+      ></iframe>
+    </div>
 
     <script>
       const sidebar = document.getElementById("sidebar");
@@ -113,6 +127,31 @@
       sosButton.addEventListener("click", () => {
         window.location.href = "helpForm.html";
       });
+
+      function updateMap(latitude, longitude) {
+        let zoomlevel = 10; // Replace with your desired zoom level
+        let link = `https://www.bing.com/maps/embed?h=300&w=400&cp=${latitude}~${longitude}&lvl=${zoomlevel}&typ=d&sty=r&src=SHELL&FORM=MBEDV8`;
+        document.getElementById("mapFrame").src = link;
+      }
+
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            function (position) {
+              let latitude = position.coords.latitude;
+              let longitude = position.coords.longitude;
+              updateMap(latitude, longitude);
+            },
+            function (error) {
+              alert("Geolocation is not supported by this browser.");
+            }
+          );
+        } else {
+          alert("Geolocation is not supported by this browser.");
+        }
+      }
+
+      window.onload = getLocation;
     </script>
   </body>
 </html>
